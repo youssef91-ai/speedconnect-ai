@@ -1,18 +1,16 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/middleware";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    const token = request.cookies.get("admin_token")?.value;
+    if (token !== process.env.ADMIN_SECRET) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static  (static files)
-     * - _next/image   (image optimization)
-     * - favicon.ico, sitemap.xml, robots.txt
-     */
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/admin/:path*", "/api/admin/:path*"],
 };

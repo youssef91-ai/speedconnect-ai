@@ -1,30 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: {
-    default: "SpeedConnect AI — Next-Gen AI Tools Directory",
-    template: "%s | SpeedConnect AI",
-  },
-  description: "Discover, compare, and connect with the most powerful AI tools shaping the future. SpeedConnect AI is your command center for the AI revolution.",
-  keywords: ["AI tools", "artificial intelligence", "machine learning", "AI directory", "productivity tools", "AI software"],
-  authors: [{ name: "SpeedConnect AI" }],
+  title: "SpeedConnect.ai — Internet Speed Test",
+  description:
+    "The most accurate internet speed test. Real multi-stream download, upload, ping and jitter measurements. Trusted by 12M+ users worldwide.",
+  keywords: ["speed test", "internet speed", "bandwidth test", "ping test", "network speed"],
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    title: "SpeedConnect.ai — Internet Speed Test",
+    description: "Real measurements. Beautiful results. No fake data.",
     url: "https://speedconnect.ai",
-    siteName: "SpeedConnect AI",
-    title: "SpeedConnect AI — Next-Gen AI Tools Directory",
-    description: "Discover, compare, and connect with the most powerful AI tools shaping the future.",
+    siteName: "SpeedConnect.ai",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SpeedConnect AI",
-    description: "Your command center for the AI revolution.",
+    title: "SpeedConnect.ai — Internet Speed Test",
+    description: "Real measurements. Beautiful results. No fake data.",
   },
-  robots: { index: true, follow: true },
+  metadataBase: new URL("https://speedconnect.ai"),
 };
 
 export default function RootLayout({
@@ -34,11 +28,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="noise scanlines grid-bg min-h-screen">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "SpeedConnect.ai",
+              description: "Internet speed test with real multi-stream measurements",
+              url: "https://speedconnect.ai",
+              applicationCategory: "UtilitiesApplication",
+              operatingSystem: "Any",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            }),
+          }}
+        />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

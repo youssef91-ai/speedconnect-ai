@@ -1,107 +1,138 @@
 "use client";
-import Link from "next/link";
-import { Zap, Code, AtSign, Network, Mail } from "lucide-react";
 
-export default function Footer() {
+export function Footer() {
+  const colStyle: React.CSSProperties = {};
+
+  const cols = [
+    {
+      heading: "Tools",
+      links: [
+        { label: "Speed Test", href: "/" },
+        { label: "What's My IP", href: "/tools/my-ip" },
+        { label: "Ping Test", href: "/tools/ping-test" },
+        { label: "DNS Lookup", href: "/tools/dns-lookup" },
+        { label: "IP Lookup", href: "/tools/ip-lookup" },
+      ],
+    },
+    {
+      heading: "Company",
+      links: [
+        { label: "About", href: "/about" },
+        { label: "Blog", href: "/blog" },
+        { label: "Careers", href: "#" },
+        { label: "Press Kit", href: "#" },
+        { label: "API", href: "#" },
+      ],
+    },
+    {
+      heading: "Legal",
+      links: [
+        { label: "Privacy Policy", href: "/privacy" },
+        { label: "Terms of Service", href: "/terms" },
+        { label: "Cookie Settings", href: "#" },
+        { label: "GDPR", href: "#" },
+        { label: "Security", href: "#" },
+      ],
+    },
+  ];
+
   return (
-    <footer style={{ borderTop: "1px solid var(--border)", background: "var(--surface)" }}>
-      <div className="ticker-line" />
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "60px 0 36px" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px" }}>
+        {/* Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr 1fr 1fr",
+            gap: 48,
+            marginBottom: 48,
+          }}
+          className="footer-grid"
+        >
           {/* Brand */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
+          <div>
+            <div
+              style={{
+                display: "flex", alignItems: "center", gap: 10,
+                fontFamily: "'Syne', sans-serif", fontSize: 19, fontWeight: 700, color: "#f0f4ff",
+              }}
+            >
               <div
-                className="w-8 h-8 flex items-center justify-center"
                 style={{
-                  background: "var(--accent)",
-                  clipPath: "polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))",
+                  width: 30, height: 30, borderRadius: 8,
+                  background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 13, fontWeight: 800, color: "#fff",
                 }}
               >
-                <Zap size={16} style={{ color: "var(--bg)" }} fill="currentColor" />
+                S
               </div>
-              <span className="font-bold text-base" style={{ fontFamily: "'Space Mono', monospace" }}>
-                Speed<span style={{ color: "var(--accent)" }}>Connect</span>
-                <span className="text-xs ml-1" style={{ color: "var(--accent-2)" }}>AI</span>
-              </span>
-            </Link>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>
-              Your command center for the AI revolution. Discover and connect with tools that move at the speed of thought.
+              SpeedConnect<span style={{ color: "#3b82f6" }}>.ai</span>
+            </div>
+            <p
+              style={{
+                fontSize: 13, color: "rgba(240,244,255,0.28)",
+                marginTop: 12, maxWidth: 220, lineHeight: 1.7,
+              }}
+            >
+              The most accurate internet speed test. Real measurements from real connections,
+              displayed beautifully.
             </p>
-            <div className="flex gap-4">
-              {[AtSign, Code, Network, Mail].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex items-center justify-center w-8 h-8 transition-all duration-200"
-                  style={{ border: "1px solid var(--border)", color: "var(--text-muted)" }}
+            <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
+              {["𝕏", "in", "▶", "gh"].map((s) => (
+                <div
+                  key={s}
+                  style={{
+                    width: 30, height: 30, borderRadius: 8,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 13, cursor: "pointer",
+                    color: "rgba(240,244,255,0.55)",
+                    transition: "background .2s, border-color .2s",
+                  }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--accent)";
-                    (e.currentTarget as HTMLElement).style.color = "var(--accent)";
+                    (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.09)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.13)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-                    (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
+                    (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.06)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.07)";
                   }}
                 >
-                  <Icon size={14} />
-                </a>
+                  {s}
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Links */}
-          {[
-            {
-              title: "Navigate",
-              links: [
-                { label: "Home", href: "/" },
-                { label: "AI Tools Directory", href: "/tools" },
-                { label: "Blog", href: "/blog" },
-                { label: "About", href: "/about" },
-                { label: "Contact", href: "/contact" },
-              ],
-            },
-            {
-              title: "Categories",
-              links: [
-                { label: "Text & Writing", href: "/tools?cat=text" },
-                { label: "Image Generation", href: "/tools?cat=image" },
-                { label: "Code & Dev", href: "/tools?cat=code" },
-                { label: "Audio & Voice", href: "/tools?cat=audio" },
-                { label: "Research", href: "/tools?cat=research" },
-              ],
-            },
-            {
-              title: "Company",
-              links: [
-                { label: "About Us", href: "/about" },
-                { label: "Privacy Policy", href: "#" },
-                { label: "Terms of Service", href: "#" },
-                { label: "Sitemap", href: "#" },
-                { label: "RSS Feed", href: "#" },
-              ],
-            },
-          ].map((col) => (
-            <div key={col.title}>
-              <h3
-                className="mono text-xs tracking-widest uppercase mb-5"
-                style={{ color: "var(--accent)" }}
+          {/* Link columns */}
+          {cols.map((col) => (
+            <div key={col.heading}>
+              <div
+                style={{
+                  fontFamily: "'Syne', sans-serif", fontSize: 13, fontWeight: 600,
+                  marginBottom: 14, color: "rgba(240,244,255,0.55)",
+                }}
               >
-                {col.title}
-              </h3>
-              <ul className="flex flex-col gap-3">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <Link
-                      href={l.href}
-                      className="text-sm transition-colors duration-200"
-                      style={{ color: "var(--text-muted)" }}
-                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--text)")}
-                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--text-muted)")}
+                {col.heading}
+              </div>
+              <ul style={{ listStyle: "none" }}>
+                {col.links.map((link) => (
+                  <li key={link.label} style={{ marginBottom: 8 }}>
+                    <a
+                      href={link.href}
+                      style={{
+                        fontSize: 13, color: "rgba(240,244,255,0.28)",
+                        textDecoration: "none", transition: "color .2s",
+                      }}
+                      onMouseEnter={(e) =>
+                        ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(240,244,255,0.55)")}
+                      onMouseLeave={(e) =>
+                        ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(240,244,255,0.28)")}
                     >
-                      {l.label}
-                    </Link>
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -109,23 +140,56 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="ticker-line mt-12 mb-6" />
-
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="mono text-xs" style={{ color: "var(--text-muted)" }}>
-            © 2025 SpeedConnect AI. All rights reserved.
-          </p>
-          <div className="flex items-center gap-2">
-            <div className="pulse-dot" style={{ width: "6px", height: "6px" }} />
-            <span className="mono text-xs" style={{ color: "var(--text-muted)" }}>
-              All systems operational
-            </span>
+        {/* Bottom bar */}
+        <div
+          style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            paddingTop: 28,
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            flexWrap: "wrap", gap: 12,
+          }}
+        >
+          <div style={{ fontSize: 12, color: "rgba(240,244,255,0.28)" }}>
+            © 2026 SpeedConnect.ai — All rights reserved
           </div>
-          <p className="mono text-xs" style={{ color: "var(--text-muted)" }}>
-            Built for the AI-native generation
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#10b981" }}>
+            <span
+              style={{
+                width: 5, height: 5, borderRadius: "50%", background: "#10b981",
+                display: "inline-block", animation: "blink 2.5s infinite",
+              }}
+            />
+            All systems operational
+          </div>
+          <div style={{ display: "flex", gap: 20 }}>
+            {["Status", "Changelog", "Support"].map((l) => (
+              <a
+                key={l}
+                href="#"
+                style={{
+                  fontSize: 12, color: "rgba(240,244,255,0.28)",
+                  textDecoration: "none", transition: "color .2s",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(240,244,255,0.55)")}
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(240,244,255,0.28)")}
+              >
+                {l}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+        }
+        @media (max-width: 480px) {
+          .footer-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </footer>
   );
 }
