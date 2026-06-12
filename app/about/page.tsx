@@ -1,161 +1,128 @@
 import type { Metadata } from "next";
-import { Zap, Brain, Globe, Shield, TrendingUp, Users } from "lucide-react";
-import Link from "next/link";
+import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
-  title: "About SpeedConnect AI",
-  description: "Learn about SpeedConnect AI — the mission, the team, and the vision behind the leading AI tools directory.",
+  title: "About — SpeedConnect.ai",
+  description: "Learn about SpeedConnect.ai — the most accurate internet speed test, built with real multi-stream measurement technology.",
 };
-
-const team = [
-  { name: "Alex Chen", role: "Founder & CEO", bio: "Former ML engineer at DeepMind. Obsessed with making AI accessible to everyone.", initials: "AC", color: "#00E5FF" },
-  { name: "Maya Torres", role: "Head of Curation", bio: "Ex-Google product lead. Tested 800+ AI tools and knows what separates signal from noise.", initials: "MT", color: "#FF3CAC" },
-  { name: "Jordan Kim", role: "Lead Engineer", bio: "Full-stack developer and open-source contributor. Built the indexing engine from scratch.", initials: "JK", color: "#7B2FFF" },
-  { name: "Sam Okafor", role: "Research & Content", bio: "Former AI researcher turned journalist. Writes the deep dives you actually want to read.", initials: "SO", color: "#00FF87" },
-];
-
-const values = [
-  { icon: Shield, title: "Radical Honesty", desc: "We don't accept paid placements or sponsored rankings. Every score is earned through real evaluation." },
-  { icon: Zap, title: "Speed First", desc: "The AI space moves at light speed. We update our directory daily and publish analysis within hours of major releases." },
-  { icon: Brain, title: "Depth Over Breadth", desc: "We'd rather give you 10 truly useful tools than 10,000 mediocre listings. Quality is the filter." },
-  { icon: Globe, title: "Open Access", desc: "The core directory is free, forever. We believe everyone deserves access to AI intelligence, not just those who can afford it." },
-];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen pt-24">
-      {/* Hero */}
-      <section className="py-16 max-w-7xl mx-auto px-6">
-        <div className="section-label mb-3">About Us</div>
-        <h1 className="text-4xl md:text-7xl font-black mb-6 leading-tight">
-          We built the resource<br />
-          <span style={{ color: "var(--accent)" }}>we wished existed.</span>
-        </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <p className="text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            SpeedConnect AI started as a personal spreadsheet in 2023. Alex Chen, tired of spending hours researching AI tools for different tasks, began cataloging them with honest notes, benchmarks, and real ratings.
+    <PageShell>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "64px 24px 96px" }}>
+        {/* Header */}
+        <div style={{ marginBottom: 56 }}>
+          <div
+            style={{
+              fontSize: 11, color: "#3b82f6", textTransform: "uppercase",
+              letterSpacing: "2.5px", fontWeight: 600, marginBottom: 14,
+            }}
+          >
+            About
+          </div>
+          <h1
+            style={{
+              fontFamily: "'Syne', sans-serif", fontSize: "clamp(36px,5vw,60px)",
+              fontWeight: 800, letterSpacing: "-2px", lineHeight: 1.08, marginBottom: 20,
+            }}
+          >
+            Built for accuracy,<br />not approximations
+          </h1>
+          <p style={{ fontSize: 18, color: "rgba(240,244,255,0.55)", lineHeight: 1.7, fontWeight: 300 }}>
+            SpeedConnect.ai was created because every existing speed test was either inaccurate,
+            ugly, or plastered with ads. We fixed all three.
           </p>
-          <p className="text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            That spreadsheet became a shared doc, then a website, then a platform trusted by 150,000+ professionals every month. The mission hasn't changed: cut through the noise so you can move faster.
-          </p>
         </div>
-      </section>
 
-      {/* Stats */}
-      <section className="py-16" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "var(--surface)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px" style={{ background: "var(--border)" }}>
-            {[
-              { value: "2,400+", label: "Tools Indexed", icon: Brain },
-              { value: "150K+", label: "Monthly Users", icon: Users },
-              { value: "Daily", label: "Update Frequency", icon: TrendingUp },
-              { value: "100%", label: "Independent", icon: Shield },
-            ].map(({ value, label, icon: Icon }) => (
-              <div key={label} className="flex flex-col items-center gap-2 py-10 px-6" style={{ background: "var(--surface)" }}>
-                <Icon size={20} style={{ color: "var(--accent)" }} />
-                <div className="text-3xl font-black">{value}</div>
-                <div className="mono text-xs text-center" style={{ color: "var(--text-muted)" }}>{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="py-24 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="section-label mb-3">Our Mission</div>
-            <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
-              Democratize access to<br />
-              <span className="gradient-text">AI intelligence</span>
-            </h2>
-            <p className="leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>
-              The AI revolution is happening whether you're ready or not. The difference between those who thrive and those who fall behind often comes down to one thing: knowing which tools to use.
-            </p>
-            <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              SpeedConnect AI exists to level that playing field. We do the research, run the benchmarks, and surface what actually works — so you can focus on what matters: building, creating, and growing.
-            </p>
-          </div>
-
-          {/* Values */}
-          <div className="grid grid-cols-1 gap-4">
-            {values.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="flex gap-4 p-5"
-                style={{ border: "1px solid var(--border)", background: "var(--surface)" }}
-              >
-                <div
-                  className="w-10 h-10 flex items-center justify-center flex-shrink-0"
-                  style={{ background: "rgba(0,229,255,0.1)", border: "1px solid rgba(0,229,255,0.2)" }}
-                >
-                  <Icon size={16} style={{ color: "var(--accent)" }} />
-                </div>
-                <div>
-                  <div className="font-bold mb-1">{title}</div>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-24" style={{ borderTop: "1px solid var(--border)", background: "var(--surface)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="section-label mb-3">The Team</div>
-          <h2 className="text-3xl md:text-4xl font-black mb-12">
-            Small team. <span style={{ color: "var(--accent)" }}>Big impact.</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {team.map((member) => (
-              <div
-                key={member.name}
-                className="card relative overflow-hidden"
-              >
-                <div
-                  className="absolute top-0 left-0 right-0 h-px"
-                  style={{ background: `linear-gradient(90deg, transparent, ${member.color}, transparent)` }}
-                />
-                <div
-                  className="w-16 h-16 flex items-center justify-center text-xl font-black mb-5"
-                  style={{
-                    background: `${member.color}15`,
-                    border: `1px solid ${member.color}30`,
-                    color: member.color,
-                  }}
-                >
-                  {member.initials}
-                </div>
-                <div className="font-bold text-lg mb-1">{member.name}</div>
-                <div className="mono text-xs mb-4" style={{ color: member.color }}>{member.role}</div>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 max-w-7xl mx-auto px-6">
+        {/* Story */}
         <div
-          className="text-center p-12 relative overflow-hidden"
-          style={{ border: "1px solid rgba(0,229,255,0.3)", background: "var(--surface)" }}
+          style={{
+            background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 22, padding: "36px 32px", marginBottom: 24,
+          }}
         >
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)" }} />
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Want to collaborate?
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 16, letterSpacing: "-0.5px" }}>
+            The problem with other speed tests
           </h2>
-          <p className="mb-8 max-w-lg mx-auto" style={{ color: "var(--text-muted)" }}>
-            We're always open to partnerships, tool submissions, and conversations with people building cool things in the AI space.
+          <p style={{ color: "rgba(240,244,255,0.55)", lineHeight: 1.8, marginBottom: 14 }}>
+            Most speed tests use a single TCP connection to measure your download speed. On modern
+            high-speed connections (100 Mbps+), a single connection rarely saturates your link —
+            it measures the performance of one thread, not your actual bandwidth.
           </p>
-          <Link href="/contact">
-            <button className="btn-primary">Get in Touch</button>
-          </Link>
+          <p style={{ color: "rgba(240,244,255,0.55)", lineHeight: 1.8 }}>
+            SpeedConnect uses 4 parallel download streams and 3 parallel upload streams, matching
+            how real applications actually use your connection — browsers open multiple connections,
+            streaming services buffer ahead, and backup software runs concurrent transfers.
+          </p>
         </div>
-      </section>
-    </div>
+
+        <div
+          style={{
+            background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 22, padding: "36px 32px", marginBottom: 24,
+          }}
+        >
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 16, letterSpacing: "-0.5px" }}>
+            Our measurement methodology
+          </h2>
+          {[
+            { title: "Ping & Jitter", body: "8 sequential HEAD requests to low-latency endpoints. The top 10% of outliers are trimmed before averaging, giving you a statistically robust latency figure. Jitter is calculated as the average absolute deviation from the mean." },
+            { title: "Download speed", body: "4 parallel HTTP/2 streams, each fetching large binary payloads from Cloudflare's global network for 10 seconds. A 300 ms sliding window calculates live throughput updates. The final result is total bytes × 8 ÷ total time." },
+            { title: "Upload speed", body: "3 parallel workers each POST pre-generated 2 MB payloads for 8 seconds. A 400 ms sliding window tracks live throughput. The same byte-accounting formula produces the final Mbps figure." },
+          ].map((item) => (
+            <div key={item.title} style={{ marginBottom: 20, paddingBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontWeight: 600, marginBottom: 6, color: "#f0f4ff" }}>{item.title}</div>
+              <p style={{ fontSize: 14, color: "rgba(240,244,255,0.55)", lineHeight: 1.7 }}>{item.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div
+          style={{
+            display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 24,
+          }}
+        >
+          {[
+            { n: "12M+", l: "Tests run" },
+            { n: "185", l: "Countries" },
+            { n: "99.97%", l: "Uptime" },
+          ].map((s) => (
+            <div
+              key={s.l}
+              style={{
+                background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: 16, padding: "24px 16px", textAlign: "center",
+              }}
+            >
+              <div style={{ fontFamily: "'Syne', sans-serif", fontSize: 36, fontWeight: 800, letterSpacing: "-1.5px", marginBottom: 4, background: "linear-gradient(135deg,#3b82f6,#06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                {s.n}
+              </div>
+              <div style={{ fontSize: 13, color: "rgba(240,244,255,0.35)" }}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+
+        <div
+          style={{
+            background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 22, padding: "36px 32px",
+          }}
+        >
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 16, letterSpacing: "-0.5px" }}>
+            Privacy & data
+          </h2>
+          <p style={{ color: "rgba(240,244,255,0.55)", lineHeight: 1.8, marginBottom: 14 }}>
+            Speed test results are stored anonymously in aggregate to power our global speed maps
+            and ISP rankings. Your IP address is never linked to your test results in any
+            public-facing data.
+          </p>
+          <p style={{ color: "rgba(240,244,255,0.55)", lineHeight: 1.8 }}>
+            Geolocation is fetched at test time and displayed to you — it is not logged against
+            your results. We do not serve ads, sell data, or use your results for any purpose
+            beyond aggregate network intelligence.
+          </p>
+        </div>
+      </div>
+    </PageShell>
   );
 }

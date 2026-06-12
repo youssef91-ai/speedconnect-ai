@@ -247,16 +247,16 @@ function ResultsDashboard({
   const useCases = getUseCases(result.download, result.upload, result.ping, result.jitter);
 
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
+    fetch("/api/ip-info")
       .then((r) => r.json())
       .then((d) =>
         setIpInfo({
           ip: d.ip || "—",
-          loc: d.city ? `${d.city}, ${d.country_code}` : "—",
-          isp: (d.org || "—").replace(/^AS\d+\s+/, "").slice(0, 20),
+          loc: d.city ? `${d.city}, ${d.country}` : "—",
+          isp: (d.org || "—").replace(/^AS\d+\s+/, "").slice(0, 22),
         })
       )
-      .catch(() => setIpInfo({ ip: "Private", loc: "—", isp: "—" }));
+      .catch(() => setIpInfo({ ip: "—", loc: "—", isp: "—" }));
   }, []);
 
   return (
@@ -795,8 +795,8 @@ function ToolsSection() {
     { icon: "📡", name: "Ping Test", description: "Measure real-time latency to global servers. Spot packet loss, routing anomalies, and instability live.", href: "/tools/ping-test" },
     { icon: "🔍", name: "DNS Lookup", description: "Query A, AAAA, MX, CNAME, TXT and NS records. Verify propagation and debug DNS misconfigurations.", href: "/tools/dns-lookup" },
     { icon: "🗺️", name: "IP Intelligence", description: "Deep-dive any IP — geolocation, ASN, threat intel, VPN/proxy detection, and reverse DNS in one view.", href: "/tools/ip-lookup" },
-    { icon: "🛡️", name: "VPN Detector", description: "Detect whether your connection routes through a VPN, datacenter proxy, or Tor exit node with our heuristic engine.", href: "#" },
-    { icon: "📈", name: "Speed History", description: "Track your speeds over days and weeks. Export CSV data or share annotated charts with your ISP support.", href: "#" },
+    { icon: "🛡️", name: "VPN Detector", description: "Detect whether your connection routes through a VPN, datacenter proxy, or Tor exit node with our heuristic engine.", href: "/tools/vpn-detector" },
+    { icon: "📈", name: "Speed History", description: "Track your speeds over days and weeks. Export CSV data or share annotated charts with your ISP support.", href: "/tools/speed-history" },
   ];
 
   return (
@@ -980,18 +980,49 @@ function CtaBanner() {
 }
 
 // ─── HERO / SPEED CARD ───────────────────────────────────────────────────────
+// Extend window so the Navbar button can trigger the test from outside this component.
+declare global {
+  interface Window {
+    __speedTestRun?: () => void;
+  }
+}
+
 export function SpeedTestClient() {
   const { state, run } = useSpeedTest();
   const [history, setHistory] = useState<Array<{ dl: number; ul: number; ts: number }>>([]);
   const revealRef = useRef<HTMLDivElement[]>([]);
 
-  // Push to history when done
+  // Register run() on window so Navbar can invoke it cross-component.
+  useEffect(() => {
+    window.__speedTestRun = run;
+    return () => { delete window.__speedTestRun; };
+  }, [run]);
+
+  // Push to history when done + persist to localStorage for Speed History page
   useEffect(() => {
     if (state.phase === "done" && state.result) {
+      const r = state.result!;
       setHistory((h) => [
         ...h,
-        { dl: state.result!.download, ul: state.result!.upload, ts: state.result!.timestamp },
+        { dl: r.download, ul: r.upload, ts: r.timestamp },
       ]);
+      // Persist to localStorage so /tools/speed-history can read it
+      try {
+        const STORAGE_KEY = "sc_speed_history";
+        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const record = {
+          id: "sc_" + r.timestamp,
+          download: r.download,
+          upload: r.upload,
+          ping: r.ping,
+          jitter: r.jitter,
+          timestamp: r.timestamp,
+        };
+        const updated = [...existing, record].slice(-100); // keep last 100
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } catch {
+        // localStorage unavailable — ignore
+      }
     }
   }, [state.phase, state.result]);
 
@@ -1068,6 +1099,7 @@ export function SpeedTestClient() {
 
         {/* ── SPEED CARD ── */}
         <div
+          id="speed-test"
           style={{
             width: "100%", maxWidth: 660,
             background: "rgba(255,255,255,0.028)",

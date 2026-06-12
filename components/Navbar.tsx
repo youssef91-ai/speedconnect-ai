@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -61,10 +64,10 @@ export function Navbar() {
           className="nav-links-desktop"
         >
           {[
-            { label: "Features", href: "#features" },
-            { label: "Tools", href: "#tools" },
-            { label: "Reviews", href: "#reviews" },
-            { label: "FAQ", href: "#faq" },
+            { label: "Features", href: "/#features" },
+            { label: "Tools", href: "/tools" },
+            { label: "Blog", href: "/blog" },
+            { label: "FAQ", href: "/#faq" },
           ].map(({ label, href }) => (
             <li key={label}>
               <a
@@ -85,8 +88,33 @@ export function Navbar() {
         </ul>
 
         {/* CTA */}
-        <a
-          href="#hero"
+        <button
+          onClick={() => {
+            if (pathname === "/") {
+              // Already on homepage — scroll the card into view then start the test.
+              const el = document.getElementById("speed-test");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+              // Fire the test regardless — if already running this is a no-op via the hook's toggle.
+              window.__speedTestRun?.();
+            } else {
+              // On another page — navigate home, then scroll + start after DOM loads.
+              router.push("/");
+              let attempts = 0;
+              const poll = setInterval(() => {
+                const el = document.getElementById("speed-test");
+                if (el) {
+                  clearInterval(poll);
+                  el.scrollIntoView({ behavior: "smooth", block: "center" });
+                  // Small delay so the scroll animation begins before the test UI changes.
+                  setTimeout(() => window.__speedTestRun?.(), 400);
+                } else if (++attempts > 40) {
+                  clearInterval(poll);
+                }
+              }, 100);
+            }
+          }}
           style={{
             padding: "8px 18px", borderRadius: 100,
             background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
@@ -95,16 +123,16 @@ export function Navbar() {
             transition: "opacity .2s, transform .2s",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.opacity = "0.88";
-            (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
+            (e.currentTarget as HTMLButtonElement).style.opacity = "0.88";
+            (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.02)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.opacity = "1";
-            (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+            (e.currentTarget as HTMLButtonElement).style.opacity = "1";
+            (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
           }}
         >
           Run Test ↗
-        </a>
+        </button>
       </div>
 
       <style>{`

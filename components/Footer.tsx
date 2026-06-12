@@ -8,10 +8,13 @@ export function Footer() {
       heading: "Tools",
       links: [
         { label: "Speed Test", href: "/" },
+        { label: "All Tools", href: "/tools" },
         { label: "What's My IP", href: "/tools/my-ip" },
         { label: "Ping Test", href: "/tools/ping-test" },
         { label: "DNS Lookup", href: "/tools/dns-lookup" },
         { label: "IP Lookup", href: "/tools/ip-lookup" },
+        { label: "VPN Detector", href: "/tools/vpn-detector" },
+        { label: "Speed History", href: "/tools/speed-history" },
       ],
     },
     {
